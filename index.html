@@ -4,61 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Button Click Event</title>
-</head>
-<body>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #70d4ed; /* Change the background color to your desired color */
+            margin: 0;
+        }
 
-<button id="productButton">Click me</button>
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+ <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleverTap</title>
 
-<script>
-document.getElementById("productButton").addEventListener("click", function() {
-   
-    var userName = "Suyog Yadav";
-    var emailId = "suyog.yadav@spit.ac.in";
+    <!-- src="https://d2r1yp2w7bby2u.cloudfront.net/js/a.js" -->
+    <script type="text/javascript">
+      //   importScripts(
+      //     "https://s3-eu-west-1.amazonaws.com/static.wizrocket.com/js/sw_webpush.js"
+      //   );
 
-   
-    var productId = 1;
-    var productName = "Clevertap";
+      var clevertap = {
+        event: [],
+        profile: [],
+        account: [],
+        onUserLogin: [],
+        notifications: [],
+        privacy: [],
+      };
+      clevertap.account.push({ id: "TEST-RRZ-K79-7W7Z" });
+      clevertap.privacy.push({ optOut: false });
+      clevertap.privacy.push({ useIP: false });
+      (function () {
+        var wzrk = document.createElement("script");
+        wzrk.type = "text/javascript";
+        wzrk.async = true;
+        wzrk.src =
+          ("https:" == document.location.protocol
+            ? "https://d2r1yp2w7bby2u.cloudfront.net"
+            : "http://static.clevertap.com") + "/js/a.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(wzrk, s);
+        var eventProperties = {
+          "Product id": 1,
+          "Product Name": "CleverTap",
+          Name: "Suyog Yadav",
+          Email: "suyog.yadav@spit.ac.in",
+          "MSG-push": true,
+        };
+        clevertap.event.push("Product viewed Event", eventProperties);
+      })();
+      clevertap.notificationCallback = function (msg) {
+        //raise the notification viewed and clicked events in the callback
+        clevertap.raiseNotificationViewed();
+        console.log(JSON.stringify(msg)); //your custom rendering implementation here
+        var $button = jQuery("<button></button>"); //element on whose click you want to raise the notification clicked event
+        $button.click(function () {
+          clevertap.raiseNotificationClicked();
+        });
+      };
+      clevertap.notifications.push({
+        titleText: "Would you like to receive Push Notifications?",
+        bodyText:
+          "We promise to only send you relevant content and give you updates on your transactions",
+        okButtonText: "Sign me up!",
+        rejectButtonText: "No thanks",
+        okButtonColor: "#f28046",
+      });
+    </script>
+  </head>
+  <body>
 
+    <button id="script">Click Me</button>
+    <!-- <div id="script"></div> -->
 
-    var eventProperties = {
-        productId: productId,
-        productName: productName,
-        userName: userName,
-        emailId: emailId
-    };
+    <script>
+      document.getElementById("script").addEventListener("click", function () {
+        alert("Button clicked!");
+      });
+    </script>
+    <script>
+      var notificationObj;
+      window.parent.clevertap.popupCallback = (notificationData) => {
+        notificationObj = notificationData;
+      };
+    </script>
+  </body>
 
-    pushProductViewedEvent(eventProperties);
-});
-
-function pushProductViewedEvent(properties) {
-    console.log("Product_viewed event pushed with properties:", properties);
-
-    clevertap.event.push("Product_viewed", properties);
-}
-
-var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[], privacy:[]};
-clevertap.account.push({"id": "TEST-84R-K79-7W7Z"}); // Replace with your CleverTap Account ID
-clevertap.privacy.push({optOut: false});
-clevertap.privacy.push({useIP: true});
-
-
-importScripts('https://s3-eu-west-1.amazonaws.com/static.wizrocket.com/js/sw_webpush.js');
-
-// Remove CleverTap service worker from your root folder
-
-
-(function () {
-    var wzrk = document.createElement('script');
-    wzrk.type = 'text/javascript';
-    wzrk.async = true;
-    wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';        
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(wzrk, s);
-})();
-
-</script>
-<link rel="manifest" href="/manifest.json">
-
-
-</body>
 </html>
