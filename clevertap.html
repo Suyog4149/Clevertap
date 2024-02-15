@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Click Event</title>
+</head>
+<body>
+
+<button id="productButton">Click me</button>
+
+<script>
+document.getElementById("productButton").addEventListener("click", function() {
+   
+    var userName = "Suyog Yadav";
+    var emailId = "suyog.yadav@spit.ac.in";
+
+   
+    var productId = 1;
+    var productName = "Clevertap";
+
+
+    var eventProperties = {
+        productId: productId,
+        productName: productName,
+        userName: userName,
+        emailId: emailId
+    };
+
+    pushProductViewedEvent(eventProperties);
+});
+
+function pushProductViewedEvent(properties) {
+    console.log("Product_viewed event pushed with properties:", properties);
+
+    clevertap.event.push("Product_viewed", properties);
+}
+
+var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[], privacy:[]};
+clevertap.account.push({"id": "TEST-84R-K79-7W7Z"}); // Replace with your CleverTap Account ID
+clevertap.privacy.push({optOut: false});
+clevertap.privacy.push({useIP: true});
+
+
+importScripts('https://s3-eu-west-1.amazonaws.com/static.wizrocket.com/js/sw_webpush.js');
+
+// Remove CleverTap service worker from your root folder
+
+
+(function () {
+    var wzrk = document.createElement('script');
+    wzrk.type = 'text/javascript';
+    wzrk.async = true;
+    wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';        
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wzrk, s);
+})();
+
+</script>
+<link rel="manifest" href="/manifest.json">
+
+
+</body>
+</html>
